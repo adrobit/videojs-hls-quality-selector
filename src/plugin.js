@@ -24,6 +24,7 @@ class HlsQualitySelectorPlugin {
   constructor(player, options) {
     this.player = player;
     this.config = options;
+    this.qualityLabels = options.qualityLabels;
 
     // If there is quality levels plugin and the HLS tech exists
     // then continue.
@@ -120,8 +121,12 @@ class HlsQualitySelectorPlugin {
       if (!levelItems.filter(_existingItem => {
         return _existingItem.item && _existingItem.item.value === pixels;
       }).length) {
+        let label =  pixels + 'p';
+        if (this.qualityLabels[label] != undefined) {
+          label = this.qualityLabels[label];
+        }
         const levelItem = this.getQualityMenuItem.call(this, {
-          label: pixels + 'p',
+          label: label,
           value: pixels
         });
 
