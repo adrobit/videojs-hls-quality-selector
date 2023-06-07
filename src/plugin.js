@@ -84,6 +84,11 @@ class HlsQualitySelectorPlugin {
    * @param {string} text - the text to display in the button.
    */
   setButtonInnerText(text) {
+
+    if (this.qualityLabels && this.qualityLabels[text] !== undefined) {
+      text = this.qualityLabels[text];
+    }
+
     this._qualityButton
       .menuButton_.$('.vjs-icon-placeholder').innerHTML = text;
   }
@@ -121,12 +126,13 @@ class HlsQualitySelectorPlugin {
       if (!levelItems.filter(_existingItem => {
         return _existingItem.item && _existingItem.item.value === pixels;
       }).length) {
-        let label =  pixels + 'p';
-        if (this.qualityLabels[label] != undefined) {
+        let label = pixels + 'p';
+
+        if (this.qualityLabels && this.qualityLabels[label] !== undefined) {
           label = this.qualityLabels[label];
         }
         const levelItem = this.getQualityMenuItem.call(this, {
-          label: label,
+          label,
           value: pixels
         });
 
